@@ -8,27 +8,25 @@ import { useStore } from "@/hooks/use-cart"
 import { toast } from "sonner"
 
 interface ProductProps {
-  id: string
+  id: string // product id
+  storeid: string // from products table
   name: string
   price: number
   category: string
   image: string
-  condition: string
   amount: number 
   slug: string
   variants?: any[]
 }
 
-export function ProductCard({ id, name, price, category, image, condition, amount, slug, variants }: ProductProps) {
+export function ProductCard({ id, storeid, name, price, category, image, amount, slug, variants }: ProductProps) {
   const { items, addItem } = useStore()
 
   const defaultVariant = variants && variants.length > 0 ? variants[0] : null
   
-  const activeId = defaultVariant?.id || id
+  const activeVariantId = defaultVariant?.id || id
   
-  // Construct the display name locally
   const displayName = defaultVariant ? `${name} (${defaultVariant.name})` : name
-  
   const activePrice = defaultVariant?.price_override ?? price ?? 0
   
   const activeStock = (() => {
@@ -38,7 +36,7 @@ export function ProductCard({ id, name, price, category, image, condition, amoun
     return amount || 0
   })()
 
-  const cartItem = items.find((item) => item.id === activeId)
+  const cartItem = items.find((item) => item.id === activeVariantId)
   const quantityInCart = cartItem?.quantity || 0
   const isAtLimit = quantityInCart >= activeStock
   const isOutOfStock = activeStock <= 0
@@ -55,7 +53,9 @@ export function ProductCard({ id, name, price, category, image, condition, amoun
     }
 
     addItem({ 
-      id: activeId, 
+      id: activeVariantId, 
+      productid: id,
+      storeid: storeid,
       name: displayName, 
       price: activePrice, 
       image, 
@@ -71,18 +71,14 @@ export function ProductCard({ id, name, price, category, image, condition, amoun
       className="group relative flex flex-col overflow-hidden rounded-xl bg-background transition-all hover:shadow-md text-left"
     >
       
-      <div className="absolute top-2 left-2 z-10 flex flex-col gap-1.5 items-start pointer-events-none text-center">
-        <span className="bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-md text-[8px] uppercase tracking-wider font-medium border border-border/20 text-foreground shadow-sm">
-          {condition}
-        </span>
-        
+      <div className="absolute top-2 left-2 z-10 flex flex-col gap-1.5 items-start pointer-events-none text-center">  
         {activeStock > 0 && activeStock < 5 && (
           <div className="flex items-center gap-1.5 bg-foreground px-2 py-0.5 rounded-md shadow-lg border border-foreground/10">
             <span className="relative flex h-1 w-1">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-1 w-1 bg-red-500"></span>
             </span>
-            <span className="text-background text-[8px] uppercase tracking-tighter font-bold">
+            <span className="text-background/40 text-[8px] uppercase tracking-tighter font-bold">
               {activeStock} LEFT
             </span>
           </div>

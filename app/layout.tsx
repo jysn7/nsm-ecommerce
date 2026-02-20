@@ -42,7 +42,7 @@ export default function RootLayout({
             },
             classNames: {
               title: 'text-black font-medium',
-              description: 'text-zinc-900 font-normal', // Darker gray for readability
+              description: 'text-zinc-900 font-normal',
               toast: 'rounded-xl shadow-lg p-4',
             }
           }}

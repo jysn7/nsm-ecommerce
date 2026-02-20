@@ -99,7 +99,7 @@ export default function AddProductModal({
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-      <div className="bg-background p-8 rounded-2xl w-full max-w-[400px] space-y-6 border border-border/40 shadow-2xl overflow-y-auto max-h-[90vh]">
+      <div className="bg-background p-8 rounded-2xl w-full max-w-100 space-y-6 border border-border/40 shadow-2xl overflow-y-auto max-h-[90vh]">
         <div className="text-center">
           <h2 className="text-sm font-normal tracking-tight">New Catalog Item</h2>
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">Enter inventory details</p>

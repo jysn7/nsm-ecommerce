@@ -35,7 +35,7 @@ export default function ProductRow({
 
     if (result.success) {
       toast.success("Product removed")
-      onStockUpdate() // refresh the list
+      onStockUpdate() 
     } else {
       toast.error("Delete failed", { description: result.error })
       setIsDeleting(false)

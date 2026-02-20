@@ -1,4 +1,3 @@
-// lib/supabase/middleware.ts
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
@@ -16,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -28,8 +27,46 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // This refreshes the session if it is expired
-  await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const url = request.nextUrl.clone()
+
+  const isProtectedPath = url.pathname.startsWith('/dashboard') || 
+                          url.pathname.startsWith('/admin') || 
+                          url.pathname.startsWith('/orders')
+
+  if (!user && isProtectedPath) {
+    url.pathname = '/login'
+    return NextResponse.redirect(url)
+  }
+
+  // Role-based Authorization
+  if (user) {
+    const { data: profile } = await supabase
+      .from('users')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    const role = profile?.role
+
+    // Protect Seller Dashboard (root/app/(seller))
+    if (url.pathname.startsWith('/dashboard') && role !== 'seller') {
+      url.pathname = '/' 
+      return NextResponse.redirect(url)
+    }
+
+    if (url.pathname.startsWith('/admin') && role !== 'admin') {
+      url.pathname = '/' 
+      return NextResponse.redirect(url)
+    }
+    
+   
+    if (user && (url.pathname === '/login' || url.pathname === '/signup')) {
+      url.pathname = '/'
+      return NextResponse.redirect(url)
+    }
+  }
 
   return supabaseResponse
 }

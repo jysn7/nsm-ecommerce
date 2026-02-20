@@ -27,7 +27,6 @@ export async function getProfileAndStore() {
 export async function activateSellerAccount(userId: string, storeName: string) {
   const supabase = await createClient()
 
-  // 1. Update user role
   const { error: userError } = await supabase
     .from('users')
     .update({ role: 'seller' })
@@ -35,11 +34,10 @@ export async function activateSellerAccount(userId: string, storeName: string) {
 
   if (userError) return { success: false, error: userError.message }
 
-  // 2. Create store (Auto-approved for now)
   const { data: store, error: storeError } = await supabase
     .from('stores')
     .insert([{
-      sellerid: userId, // Updated to match SQL sellerId
+      sellerid: userId, 
       store_name: storeName,
       status: 'active',
       is_verified: true

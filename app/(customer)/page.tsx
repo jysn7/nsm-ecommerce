@@ -1,17 +1,14 @@
 'use client'
 
 import { useState, useEffect } from "react"
-import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
 import { ProductCard } from "@/features/products/ProductCard"
 import { ProductCardSkeleton } from "@/features/products/ProductCardSkeleton"
 import { HeroCarousel } from "@/features/products/HeroCarousel"
-import { FilterSidebar } from "@/features/products/FilterSidebar"
-import { useStore } from "@/hooks/use-cart"
 import { getBuyerProducts } from "@/lib/supabase/products"
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 
-export default function BuyerPage() {
-  const { searchQuery, setSearchQuery, priceRange, category } = useStore()
+export default function HomePage() {
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -20,74 +17,68 @@ export default function BuyerPage() {
       setLoading(true)
       const result = await getBuyerProducts()
       if (result.success) {
-        setProducts(result.data)
+        // Show only 8 
+        setProducts(result.data.slice(0, 8))
       }
       setLoading(false)
     }
     loadData()
   }, [])
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = category === 'all' || product.category === category
-    const matchesPrice = product.price <= priceRange[0]
-    
-    return matchesSearch && matchesCategory && matchesPrice
-  })
-
   return (
     <div className="flex flex-col items-center bg-background min-h-screen">
+      
+      {/* Hero Section */}
       <HeroCarousel />
 
-      <div className="w-full max-w-[1400px] px-8 md:px-16 lg:px-24 py-10">
+      <div className="w-full max-w-350 px-8 md:px-16 lg:px-24 py-20 space-y-16">
         
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
-          <div className="relative w-full max-w-lg">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input 
-              placeholder="Search products..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-10 rounded-xl border-none bg-muted/50 pl-10 pr-4 focus-visible:ring-1"
-            />
+        {/* Section Header */}
+        <div className="flex items-center justify-between border-b border-border/40 pb-6">
+          <div className="space-y-1">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-foreground">Featured Collection</h2>
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Handpicked items for you</p>
           </div>
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            {loading ? "Syncing inventory..." : `Showing ${filteredProducts.length} results`}
-          </div>
+          <Link 
+            href="/products" 
+            className="group flex items-center gap-2 text-[10px] uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          >
+            View all products
+            <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          
-          <div className="w-full lg:w-64 shrink-0 text-center">
-            <FilterSidebar />
+        {/* Grid */}
+        <main className="w-full">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
+            {loading ? (
+              Array.from({ length: 8 }).map((_, i) => (
+                <ProductCardSkeleton key={i} />
+              ))
+            ) : products.length > 0 ? (
+              products.map((item) => (
+                <ProductCard key={item.id} {...item} />
+              ))
+            ) : (
+              <div className="col-span-full flex flex-col items-center justify-center py-20">
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground">No featured items at the moment</p>
+              </div>
+            )}
           </div>
+        </main>
 
-          <main className="flex-1">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-              {loading ? (
-                // render 8 skeletons while loading
-                Array.from({ length: 8 }).map((_, i) => (
-                  <ProductCardSkeleton key={i} />
-                ))
-              ) : filteredProducts.length > 0 ? (
-                filteredProducts.map((item) => (
-                  <ProductCard key={item.id} {...item} />
-                ))
-              ) : (
-                <div className="col-span-full flex flex-col items-center justify-center py-20 space-y-2">
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground">No products found</p>
-                  <button 
-                    onClick={() => setSearchQuery('')}
-                    className="text-[10px] underline uppercase tracking-widest"
-                  >
-                    Clear all filters
-                  </button>
-                </div>
-              )}
-            </div>
-          </main>
+        {/* Bottom Call to Action */}
+        {!loading && products.length > 0 && (
+          <div className="flex justify-center pt-10">
+            <Link 
+              href="/products"
+              className="rounded-xl border border-border px-10 py-4 text-[10px] uppercase font-bold tracking-[0.2em] hover:bg-muted transition-colors"
+            >
+              Explore Full Catalog
+            </Link>
+          </div>
+        )}
 
-        </div>
       </div>
     </div>
   )

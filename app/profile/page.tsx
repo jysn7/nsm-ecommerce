@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { getProfileAndStore, activateSellerAccount } from "@/lib/supabase/customer"
-import { User, Store, ShieldCheck, Loader2, ArrowRight } from "lucide-react"
+import { User, Store, ShieldCheck, Loader2, ArrowRight, LayoutDashboard } from "lucide-react"
 import { toast } from "sonner"
+import Link from "next/link"
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(true)
@@ -101,7 +102,7 @@ export default function ProfilePage() {
             </div>
           </div>
         ) : (
-          <div className="bg-muted/20 border border-border/40 rounded-2xl p-8 space-y-6">
+          <div className="bg-muted/20 border border-border/40 rounded-2xl p-8 space-y-8">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-background border border-border/40 flex items-center justify-center">
@@ -117,6 +118,14 @@ export default function ProfilePage() {
               </div>
               <ShieldCheck className="h-5 w-5 text-primary" />
             </div>
+
+            <Link 
+              href="/dashboard"
+              className="w-full bg-primary text-background border border-border/40 text-[10px] uppercase tracking-widest py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors"
+            >
+              <LayoutDashboard className="h-3.5 w-3.5" />
+              Access Dashboard
+            </Link>
           </div>
         )}
       </section>

@@ -6,7 +6,6 @@ export async function createProduct(formData: any) {
   const supabase = await createClient()
   let publicUrl = null
 
-  // 1. handle image upload if a file exists
   if (formData.image) {
     const file = formData.image
     const fileExt = file.name.split('.').pop()
@@ -21,7 +20,6 @@ export async function createProduct(formData: any) {
       return { success: false, error: "Image upload failed: " + uploadError.message }
     }
 
-    // get the public link
     const { data: urlData } = supabase.storage
       .from('market-assets')
       .getPublicUrl(filePath)
@@ -29,13 +27,11 @@ export async function createProduct(formData: any) {
     publicUrl = urlData.publicUrl
   }
 
-  // 2. generate slug
   const slug = formData.title
     .toLowerCase()
     .replace(/ /g, '-')
     .replace(/[^\w-]+/g, '') + '-' + Math.random().toString(36).substring(2, 7)
 
-  // 3. call database function with the new image url
   const { data: productId, error } = await supabase.rpc('create_product_with_inventory', {
     p_store_id: formData.storeid,
     p_category_id: formData.categoryid,
@@ -45,7 +41,7 @@ export async function createProduct(formData: any) {
     p_base_price: formData.price,
     p_sku: formData.sku || `sku-${Math.random().toString(36).toUpperCase().substring(2, 8)}`,
     p_stock: formData.stock,
-    p_image_url: publicUrl // ensure your RPC accepts this parameter
+    p_image_url: publicUrl
   })
 
   if (error) {
@@ -61,7 +57,7 @@ export async function deleteProduct(productId: string) {
   const { error } = await supabase
     .from('products')
     .delete()
-    .eq('id', productId)
+    .eq('id', productId) 
 
   if (error) {
     return { success: false, error: error.message }
@@ -89,8 +85,9 @@ export async function getStoreInventory(storeId: string) {
         )
       )
     `)
-    .eq('storeid', storeId)
+    .eq('storeid', storeId) 
     .order('created_at', { ascending: false })
+    .limit(100) 
 
   if (error) return { success: false, error: error.message }
   return { success: true, data }
@@ -105,22 +102,20 @@ export async function createVariant(formData: {
 }) {
   const supabase = await createClient()
 
-  // 1. insert into product_variants
+  // Explicitly select only needed column after insert
   const { data: variant, error: vError } = await supabase
     .from('product_variants')
     .insert([{
       productid: formData.productId,
       name: formData.name,
-      // includes price_override if provided, otherwise stays null (default)
       price_override: formData.priceOverride || null,
       sku: formData.sku || `sku-${Math.random().toString(36).toUpperCase().substring(2, 8)}`
     }])
-    .select()
+    .select('id') 
     .single()
 
   if (vError) return { success: false, error: vError.message }
 
-  // 2. insert into inventory_levels
   const { error: iError } = await supabase
     .from('inventory_levels')
     .insert([{
@@ -129,7 +124,6 @@ export async function createVariant(formData: {
     }])
 
   if (iError) {
-    // cleanup variant if inventory fails to maintain data integrity
     await supabase.from('product_variants').delete().eq('id', variant.id)
     return { success: false, error: iError.message }
   }
@@ -150,9 +144,6 @@ export async function deleteVariant(variantId: string) {
   return { success: true }
 }
 
-
-
-
 // ------------ Customer -----------------------
 
 export async function getBuyerProducts() {
@@ -163,6 +154,7 @@ export async function getBuyerProducts() {
     .select(`
       id,
       title,
+      storeid,
       base_price,
       image_url,
       slug,
@@ -175,6 +167,8 @@ export async function getBuyerProducts() {
         inventory:inventory_levels(stock_count)
       )
     `)
+    .order('created_at', { ascending: false })
+    .limit(50) 
 
   if (error) {
     return { success: false, error: error.message, data: [] }
@@ -194,6 +188,7 @@ export async function getBuyerProducts() {
       name: p.title, 
       price: p.base_price,
       slug: p.slug,
+      storeid: p.storeid,
       category: p.category?.name?.toLowerCase() || 'unassigned',
       image: p.image_url || null,
       variants: sortedVariants,
@@ -215,6 +210,7 @@ export async function getCategories() {
     .from('categories')
     .select('id, name')
     .order('name', { ascending: true })
+    .limit(100)
 
   if (error) {
     return { success: false, error: error.message, data: [] }
@@ -251,7 +247,7 @@ export async function getProductBySlug(slug: string) {
         inventory_levels ( stock_count )
       )
     `)
-    .eq('slug', slug)
+    .eq('slug', slug) 
     .maybeSingle()
 
   if (error) return { success: false, error: error.message }

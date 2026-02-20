@@ -152,7 +152,7 @@ export function FilterSidebar() {
               Filter & Sort
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[300px] px-6 sm:w-[350px] bg-background border-r border-border">
+          <SheetContent side="left" className="w-75 px-6 sm:w-87.5 bg-background border-r border-border">
             <SheetHeader className="text-left pb-8 pt-4">
               <SheetTitle className="text-sm font-normal uppercase tracking-widest">Filters</SheetTitle>
             </SheetHeader>

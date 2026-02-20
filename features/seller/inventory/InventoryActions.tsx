@@ -26,7 +26,7 @@ export default function InventoryActions() {
           </Button>
         </div>
 
-        <div className="h-[1px] bg-border/40 w-full" />
+        <div className="h-px bg-border/40 w-full" />
 
         <div className="space-y-2">
           <p className="text-xs text-foreground font-normal">

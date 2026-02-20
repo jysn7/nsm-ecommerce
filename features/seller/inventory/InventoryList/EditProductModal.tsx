@@ -66,8 +66,8 @@ export default function EditProductModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-background p-8 rounded-3xl w-full max-w-[450px] space-y-8 border border-border/40 shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 bg-foreground/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-background p-8 rounded-3xl w-full max-w-112.5 space-y-8 border border-border/40 shadow-2xl overflow-hidden">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-sm font-normal tracking-tight">Manage Catalog</h2>
@@ -80,7 +80,7 @@ export default function EditProductModal({
 
         <div className="space-y-3">
           <p className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">Active Variants</p>
-          <div className="max-h-[180px] overflow-y-auto space-y-2 pr-2 custom-scrollbar">
+          <div className="max-h-45 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
             {product.product_variants?.map((v: any) => {
               const inv = v.inventory_levels
               const currentStock = Array.isArray(inv) ? (inv[0]?.stock_count ?? 0) : (inv?.stock_count ?? 0)

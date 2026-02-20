@@ -6,5 +6,5 @@ export default async function NavbarWrapper() {
  
   const { data: { user } } = await supabase.auth.getUser()
 
-  return <Navbar email={user?.email} />
+  return <Navbar email={user?.email} role={user?.role}/>
 }

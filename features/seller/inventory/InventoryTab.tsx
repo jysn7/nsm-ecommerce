@@ -7,6 +7,7 @@ import AddProductModal from "./AddProductModal"
 import { getProfileAndStore } from "@/lib/supabase/customer"
 import { getStoreInventory } from "@/lib/supabase/products"
 import { Loader2 } from "lucide-react"
+import InventorySkeleton from "./InventorySkeleton"
 
 export default function InventoryTab() {
   const [products, setProducts] = useState<any[]>([])
@@ -41,17 +42,11 @@ export default function InventoryTab() {
   }
 
   if (loading) return (
-    <div className="flex flex-col items-start justify-center py-24 gap-4 px-6 md:px-0">
-      <Loader2 className="h-5 w-5 animate-spin text-primary" />
-      <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Syncing catalog</p>
-    </div>
+    <InventorySkeleton />
   )
 
   return (
     <div className="space-y-6 md:space-y-10 w-full max-w-5xl mx-auto px-4 md:px-0 text-left">
-      {/* only show the header (which contains the add button) if storeId exists.
-        this ensures the user can only trigger the modal when the data is ready.
-      */}
       {storeId && (
         <InventoryHeader onAdd={() => setShowAddModal(true)} />
       )}

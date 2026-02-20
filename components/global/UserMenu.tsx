@@ -30,7 +30,6 @@ export function UserMenu({ email }: { email?: string }) {
           <User className="h-[1.1rem] w-[1.1rem] stroke-[1.5]" />
         </Button>
       </DropdownMenuTrigger>
-      {/* Fixed: Added bg-background and solid border classes */}
       <DropdownMenuContent 
         align="end" 
         className="w-56 rounded-xl border border-border bg-background p-2 shadow-xl"

@@ -1,16 +1,14 @@
 'use client'
 
 import { useState } from "react"
-import OverviewTab from "@/features/seller/overview/OverviewTab"
 import InventoryTab from "@/features/seller/inventory/InventoryTab"
 import PayoutsTab from "@/features/seller/payout/PayoutTab"
 import SettingsTab from "@/features/seller/settings/SettingsTab"
 
 export default function SellerPage() {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState("inventory")
 
   const tabs = [
-    { label: "Overview", value: "overview" },
     { label: "Inventory", value: "inventory" },
     { label: "Payouts", value: "payouts" },
     { label: "Settings", value: "settings" },
@@ -37,7 +35,6 @@ export default function SellerPage() {
 
       {/* Tab Content */}
       <div>
-        {activeTab === "overview" && <OverviewTab />}
         {activeTab === "inventory" && <InventoryTab />}
         {activeTab === "payouts" && <PayoutsTab />}
         {activeTab === "settings" && <SettingsTab />}

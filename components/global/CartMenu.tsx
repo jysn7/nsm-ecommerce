@@ -28,7 +28,7 @@ export function CartMenu() {
         </Button>
       </SheetTrigger>
       
-      <SheetContent className="flex flex-col w-full sm:w-[440px] p-0 bg-background border-l border-border">
+      <SheetContent className="flex flex-col w-full sm:w-110 p-0 bg-background border-l border-border">
         <SheetHeader className="p-6 border-b border-border/50">
           <SheetTitle className="text-[10px] uppercase tracking-widest font-normal text-muted-foreground">
             Shopping Bag ({cartCount})
@@ -39,7 +39,7 @@ export function CartMenu() {
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
               <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
-                <ShoppingBag className="h-6 w-6 text-muted-foreground stroke-[1]" />
+                <ShoppingBag className="h-6 w-6 text-muted-foreground stroke-1" />
               </div>
               <div className="space-y-1">
                 <p className="text-xs uppercase tracking-widest text-foreground">Your bag is empty</p>

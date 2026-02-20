@@ -6,8 +6,8 @@ export default function InventoryList({
   products,
   onStockUpdate,
 }: {
-  products: any[] // Updated to handle nested Supabase objects
-  onStockUpdate: () => void // Simplified to a refresh trigger
+  products: any[] 
+  onStockUpdate: () => void 
 }) {
   if (products.length === 0) {
     return (
