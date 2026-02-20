@@ -44,7 +44,7 @@ export function MobileSidebar({ email, role }: { email?: string; role?: string }
         
         <SheetHeader className="p-6 text-left border-b border-border/50">
           <SheetTitle className="text-[10px] uppercase tracking-[0.2em] font-normal text-muted-foreground">
-            Marketplace
+            AURA
           </SheetTitle>
         </SheetHeader>
 

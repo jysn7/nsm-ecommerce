@@ -79,3 +79,4 @@ export async function getStoreInventory(storeId: string) {
   if (error) throw error
   return data
 }
+

@@ -15,11 +15,24 @@ export function Navbar({ email, role }: { email?: string; role?: string }) {
       <div className="flex h-16 items-center justify-between px-6 md:px-12 lg:px-20">
         
         {/* Brand Logo */}
-        <div className="flex items-center">
-          <Link href="/" className="text-lg font-normal tracking-tighter uppercase">
-            Marketplace
-          </Link>
-        </div>
+        <div className="flex items-center gap-3">
+        <Link href="/" className="group flex items-center gap-3">
+          {/* Aura Logo Mark */}
+          <div className="relative h-8 w-8 flex items-center justify-center">
+            {/* Background shape */}
+            <div className="absolute inset-0 rounded-full border border-foreground/20 transition-transform duration-500 group-hover:scale-110" />
+            {/* Inset shape */}
+            <div className="h-4 w-4 rounded-full bg-foreground transition-all duration-500 group-hover:h-3 group-hover:w-3" />
+            {/* Lens effect div */}
+            <div className="absolute top-0 left-0 h-full w-full rounded-full border-t-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </div>
+
+          {/* Brand Name */}
+          <span className="text-lg font-bold  tracking-tighter uppercase">
+            Aura
+          </span>
+        </Link>
+      </div>
 
         {/* Action Group */}
         <div className="flex items-center gap-1 sm:gap-2">

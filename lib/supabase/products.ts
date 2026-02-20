@@ -273,3 +273,32 @@ export async function getProductBySlug(slug: string) {
 
   return { success: true, data: formattedData }
 }
+
+export async function getStores() {
+  const supabase = await createClient()
+  
+  const { data, error } = await supabase
+    .from('stores')
+    .select('id, store_name, logo_url, banner_url')
+    .eq('status', 'active') 
+    .limit(6)
+    .order('store_name', { ascending: true })
+
+  if (error) {
+    console.error('Error fetching stores:', error.message)
+    return { success: false, error }
+  }
+
+  // Map through the stores to transform relative paths into public URLs
+  const transformedData = data.map(store => ({
+    ...store,
+    logo_url: store.logo_url 
+      ? supabase.storage.from('store-images').getPublicUrl(store.logo_url).data.publicUrl 
+      : null,
+    banner_url: store.banner_url 
+      ? supabase.storage.from('store-images').getPublicUrl(store.banner_url).data.publicUrl 
+      : null
+  }))
+
+  return { success: true, data: transformedData }
+}
