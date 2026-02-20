@@ -15,7 +15,7 @@ export default function HomePage() {
     <div className="flex flex-col items-center bg-background min-h-screen">
       <HeroSection />
 
-      <div className="w-full max-w-[1400px] px-8 md:px-16 lg:px-24 py-12 space-y-24">
+      <div className="w-full max-w-350 px-8 md:px-16 lg:px-24 py-12 space-y-24">
         <CategoriesSection categories={categories} loading={loading} />
         <RecentlyListedSection products={products} loading={loading} />
         <BecomeSellerSection sellerRoute={sellerRoute} />

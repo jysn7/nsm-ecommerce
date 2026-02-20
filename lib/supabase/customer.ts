@@ -12,7 +12,7 @@ export async function getProfileAndStore() {
   // 1. Fetch only necessary columns
   const [profileRes, storeRes] = await Promise.all([
     supabase.from('users').select('id, full_name, email, role').eq('id', authUser.id).single(),
-    supabase.from('stores').select('id, store_name, logo_url, banner_url').eq('sellerid', authUser.id).single()
+    supabase.from('stores').select('id, store_name, storeid, logo_url, banner_url').eq('sellerid', authUser.id).single()
   ])
 
   const profile = profileRes.data
