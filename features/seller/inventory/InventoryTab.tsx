@@ -77,7 +77,7 @@ export default function InventoryTab() {
                   className="w-full px-8 py-6 flex items-center justify-between hover:bg-muted/10 transition-colors"
                 >
                   <div className="space-y-1 text-left">
-                    <h3 className="text-sm font-bold uppercase tracking-widest text-foreground">
+                    <h3 className="text-sm font-semibold uppercase tracking-widest text-foreground">
                       {group.name}
                     </h3>
                     <p className="text-[10px] text-muted-foreground uppercase tracking-wider">

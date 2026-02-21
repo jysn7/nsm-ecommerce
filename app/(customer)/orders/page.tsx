@@ -14,7 +14,7 @@ export default async function OrdersPage() {
         <Separator className="mt-12 opacity-40" />
       </section>
 
-      <main className="px-8 md:px-16 lg:px-24 max-w-350 mx-auto">
+      <main className="px-4 md:px-16 lg:px-24 max-w-350 mx-auto">
         {orders.length === 0 ? (
           <EmptyOrders />
         ) : (

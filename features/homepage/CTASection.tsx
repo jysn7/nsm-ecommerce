@@ -19,7 +19,7 @@ export function CTASection() {
       <Button
         size="lg"
         asChild
-        className="rounded-xl px-14 py-7 text-[10px] uppercase tracking-widest font-bold"
+        className="rounded-xl px-14 py-7 text-[10px] uppercase tracking-widest font-semibold"
       >
         <Link href="/products">
           Shop the full catalog

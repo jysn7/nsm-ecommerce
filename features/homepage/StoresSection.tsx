@@ -71,7 +71,7 @@ export function StoresSection({ stores, loading }: any) {
                     </h4>
                   </div>
 
-                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-background font-bold group-hover:gap-4 transition-all">
+                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-background font-semibold group-hover:gap-4 transition-all">
                     Visit Store <ArrowRight className="h-3 w-3" />
                   </div>
                 </div>

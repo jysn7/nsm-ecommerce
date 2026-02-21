@@ -9,11 +9,11 @@ export function RecentlyListedSection({ products, loading }: any) {
   return (
     <section className="space-y-10">
       <div className="flex items-center justify-between">
-        <div>
+        <div className="flex flex-col items-start">
           <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2">
             Marketplace
           </p>
-          <h3 className="text-3xl font-normal tracking-tight text-foreground uppercase">
+          <h3 className="text-3xl text-left font-normal tracking-tight text-foreground uppercase">
             Recently Listed
           </h3>
         </div>

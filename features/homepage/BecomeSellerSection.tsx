@@ -30,7 +30,7 @@ export function BecomeSellerSection({ sellerRoute }: any) {
         <Button
           size="lg"
           asChild
-          className="h-14 rounded-xl bg-background text-foreground hover:bg-background/90 px-10 text-[10px] uppercase tracking-widest font-bold"
+          className="h-14 rounded-xl bg-background text-foreground hover:bg-background/90 px-10 text-[10px] uppercase tracking-widest font-semibold"
         >
           <Link href={sellerRoute}>
             Become a seller

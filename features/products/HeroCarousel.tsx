@@ -85,14 +85,14 @@ export function HeroCarousel() {
                     </p>
                     
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-                      <Button asChild className="h-14 px-10 rounded-xl bg-background text-foreground hover:bg-background/90 text-[10px] uppercase tracking-widest font-bold border-none transition-all hover:-translate-y-0.5">
+                      <Button asChild className="h-14 px-10 rounded-xl bg-background text-foreground hover:bg-background/90 text-[10px] uppercase tracking-widest font-semibold border-none transition-all hover:-translate-y-0.5">
                         <Link href={s.link} className="flex items-center gap-2">
                           <ShoppingBag className="h-4 w-4" />
                           {s.cta}
                         </Link>
                       </Button>
                       
-                      <Button asChild className="h-14 px-10 rounded-xl bg-transparent border border-background/30 text-background hover:bg-background/10 text-[10px] uppercase tracking-widest font-bold transition-all hover:-translate-y-0.5">
+                      <Button asChild className="h-14 px-10 rounded-xl bg-transparent border border-background/30 text-background hover:bg-background/10 text-[10px] uppercase tracking-widest font-semibold transition-all hover:-translate-y-0.5">
                         <Link href="/products" className="flex items-center gap-2">
                           Explore all <ArrowRight className="h-4 w-4" />
                         </Link>
