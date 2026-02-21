@@ -8,7 +8,8 @@ import {
   LayoutDashboard, 
   Package, 
   User, 
-  LogOut 
+  LogOut, 
+  ShoppingBasket
 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import {
@@ -24,7 +25,8 @@ export function MobileSidebar({ email, role }: { email?: string; role?: string }
 
   const publicItems = [
     { name: 'Home', icon: House, href: '/' },
-    { name: 'Shop All', icon: Store, href: '/products' },
+    { name: 'Shop All', icon: ShoppingBasket, href: '/products' },
+    { name: 'Stores', icon: Store, href: '/stores' },
   ]
 
   const authItems = [
@@ -43,8 +45,8 @@ export function MobileSidebar({ email, role }: { email?: string; role?: string }
       <SheetContent side="right" className="flex flex-col w-75 bg-background p-0 border-l border-border">
         
         <SheetHeader className="p-6 text-left border-b border-border/50">
-          <SheetTitle className="text-[10px] uppercase tracking-[0.2em] font-normal text-muted-foreground">
-            AURA
+          <SheetTitle className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground">
+            Kith
           </SheetTitle>
         </SheetHeader>
 

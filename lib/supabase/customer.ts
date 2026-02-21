@@ -9,16 +9,15 @@ export async function getProfileAndStore() {
 
   if (!authUser) return { profile: null, store: null }
 
-  // 1. Fetch only necessary columns
   const [profileRes, storeRes] = await Promise.all([
     supabase.from('users').select('id, full_name, email, role').eq('id', authUser.id).single(),
-    supabase.from('stores').select('id, store_name, storeid, logo_url, banner_url').eq('sellerid', authUser.id).single()
+    supabase.from('stores').select('id, store_name, logo_url, banner_url').eq('sellerid', authUser.id).single()
   ])
 
   const profile = profileRes.data
   let store = storeRes.data
 
-  // 2. Transform raw paths into full URLs if they exist
+  // Transform raw paths into full URLs if they exist
   if (store) {
     if (store.logo_url) {
       const { data } = supabase.storage.from('store-images').getPublicUrl(store.logo_url)
@@ -118,4 +117,26 @@ export async function updateStoreProfile(
   if (error) return { success: false, error: error.message }
 
   return { success: true, store: data }
+}
+
+
+export async function getNavbarProfile() {
+  const supabase = await createClient()
+  
+  const { data: { user: authUser } } = await supabase.auth.getUser()
+
+  if (!authUser) {
+    return { email: undefined, role: undefined }
+  }
+
+  const { data: profile } = await supabase
+    .from('users')
+    .select('role, email')
+    .eq('id', authUser.id)
+    .single()
+
+  return {
+    email: authUser.email ?? undefined,
+    role: profile?.role ?? undefined
+  }
 }

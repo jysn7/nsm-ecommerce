@@ -17,24 +17,35 @@ export default function SellerPage() {
   return (
     <div className="space-y-10">
       {/* Tab Navigation */}
-      <div className="flex items-center gap-8 border-b border-border pb-4">
-        {tabs.map((tab) => (
-          <button
-            key={tab.value}
-            onClick={() => setActiveTab(tab.value)}
-            className={`text-[10px] uppercase tracking-widest transition-colors ${
-              activeTab === tab.value
-                ? "text-foreground font-medium"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div className="flex items-center gap-10 border-b border-border/40">
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab.value
+          
+          return (
+            <button
+              key={tab.value}
+              onClick={() => setActiveTab(tab.value)}
+              className="relative pb-4"
+            >
+              <span className={`text-[10px] uppercase tracking-[0.2em] transition-all duration-300 ${
+                isActive
+                  ? "text-foreground font-bold"
+                  : "text-muted-foreground hover:text-foreground/70"
+              }`}>
+                {tab.label}
+              </span>
+              
+              {/* Animated Indicator */}
+              {isActive && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground transition-all duration-300" />
+              )}
+            </button>
+          )
+        })}
       </div>
 
       {/* Tab Content */}
-      <div>
+      <div className="min-h-100">
         {activeTab === "inventory" && <InventoryTab />}
         {activeTab === "payouts" && <PayoutsTab />}
         {activeTab === "settings" && <SettingsTab />}

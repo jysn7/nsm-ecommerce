@@ -8,6 +8,7 @@ import { ProductCardSkeleton } from "@/features/products/ProductCardSkeleton"
 import { FilterSidebar } from "@/features/products/FilterSidebar"
 import { useStore } from "@/hooks/use-cart"
 import { getBuyerProducts } from "@/lib/supabase/products"
+import { Separator } from "@/components/ui/separator"
 
 export default function BuyerPage() {
   const { searchQuery, setSearchQuery, priceRange, category } = useStore()
@@ -19,7 +20,7 @@ export default function BuyerPage() {
       setLoading(true)
       const result = await getBuyerProducts()
       if (result.success) {
-        setProducts(result.data)
+        setProducts(result.data ?? [])
       }
       setLoading(false)
     }
@@ -35,42 +36,54 @@ export default function BuyerPage() {
   })
 
   return (
-    <div className="flex flex-col items-center bg-background min-h-screen">
+    <div className="bg-background min-h-screen pb-24">
       
-      {/* Page Header */}
-      <header className="w-full py-12 border-b border-border/40 text-center space-y-3">
-        <h1 className="text-3xl font-normal tracking-tight text-foreground">Products</h1>
-        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Browse our curated inventory</p>
-      </header>
+      {/* Page Header - Matches Stores Page Alignment */}
+      <section className="pt-32 pb-16 px-8 md:px-16 lg:px-24">
+        <div className="max-w-[1400px] mx-auto space-y-12">
+          <div className="text-left max-w-2xl">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-3">
+              Marketplace
+            </p>
+            <h1 className="text-5xl font-normal tracking-tighter text-foreground uppercase mb-6">
+              Shop All Products
+            </h1>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Browse our full catalog of items from local sellers. Secure checkout and direct delivery available on all orders.
+            </p>
+          </div>
 
-      <div className="w-full max-w-350 px-8 md:px-16 lg:px-24 py-10">
-        
-        {/* Search and Results Info */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
-          <div className="relative w-full max-w-lg">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input 
-              placeholder="Search products..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-10 rounded-xl border-none bg-muted/50 pl-10 pr-4 focus-visible:ring-1"
-            />
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="relative w-full max-w-md">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <input 
+                type="text"
+                placeholder="Search for items or brands..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-muted/20 border border-border/40 rounded-xl py-4 pl-12 pr-4 text-[10px] uppercase tracking-widest outline-1 focus:bg-muted/40 transition-colors"
+              />
+            </div>
+            <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
+              {loading ? "Updating list..." : `${filteredProducts.length} items found`}
+            </div>
           </div>
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            {loading ? "Syncing inventory..." : `Showing ${filteredProducts.length} results`}
-          </div>
+          
+          <Separator className="opacity-40" />
         </div>
+      </section>
 
+      <div className="max-w-350 mx-auto px-8 md:px-16 lg:px-24">
         <div className="flex flex-col lg:flex-row gap-12">
           
           {/* Sidebar Filter */}
-          <div className="w-full lg:w-64 shrink-0 text-center">
+          <aside className="w-full lg:w-64 shrink-0">
             <FilterSidebar />
-          </div>
+          </aside>
 
-          {/* Product Grid Container */}
+          {/* Product Grid */}
           <main className="flex-1">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
               {loading ? (
                 Array.from({ length: 8 }).map((_, i) => (
                   <ProductCardSkeleton key={i} />
@@ -80,19 +93,18 @@ export default function BuyerPage() {
                   <ProductCard key={item.id} {...item} />
                 ))
               ) : (
-                <div className="col-span-full flex flex-col items-center justify-center py-20 space-y-2">
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground">No products found</p>
+                <div className="col-span-full flex flex-col items-center justify-center py-20 space-y-4">
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">No matches found for your search.</p>
                   <button 
                     onClick={() => setSearchQuery('')}
-                    className="text-[10px] underline uppercase tracking-widest"
+                    className="text-[10px] px-6 py-3 bg-muted rounded-full uppercase tracking-widest font-bold hover:bg-muted/80 transition-colors"
                   >
-                    Clear all filters
+                    Reset Search
                   </button>
                 </div>
               )}
             </div>
           </main>
-
         </div>
       </div>
     </div>

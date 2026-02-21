@@ -75,6 +75,7 @@ export async function getStoreInventory(storeId: string) {
       id,
       title,
       image_url,
+      categoryid,
       base_price,
       product_variants (
         id,

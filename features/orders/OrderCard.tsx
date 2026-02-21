@@ -14,7 +14,7 @@ export default function OrderCard({ order }: { order: any }) {
   const displayStatus = dbStatus.replace('_', ' ')
 
   return (
-    <details className="group bg-card border border-border rounded-xl transition-all open:shadow-sm">
+    <details className="group bg-card border-2 border-border rounded-xl transition-all open:shadow-sm">
       <summary className="list-none cursor-pointer p-6 focus:outline-none">
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div className="flex items-center gap-5">

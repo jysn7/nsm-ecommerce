@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import Image from "next/image"
 import Autoplay from "embla-carousel-autoplay"
 import {
   Carousel,
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/carousel"
 import { Button } from "@/components/ui/button"
 import { ShoppingBag, ArrowRight } from "lucide-react"
+import HeroSkeleton from "./HeroSkeleton"
 
 const slides = [
   { 
@@ -31,12 +33,20 @@ const slides = [
 ];
 
 export function HeroCarousel() {
+  const [isMounted, setIsMounted] = React.useState(false)
   const plugin = React.useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true })
   )
 
+  React.useEffect(() => {
+    const timer = setTimeout(() => setIsMounted(true), 100)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (!isMounted) return <HeroSkeleton />
+
   return (
-    <div className="w-full">
+    <div className="w-full animate-in fade-in duration-700">
       <Carousel
         plugins={[plugin.current]}
         className="w-full"
@@ -44,20 +54,21 @@ export function HeroCarousel() {
         onMouseLeave={plugin.current.reset}
       >
         <CarouselContent className="ml-0">
-          {slides.map((s) => (
+          {slides.map((s, index) => (
             <CarouselItem key={s.id} className="pl-0">
               <div className="relative h-[60vh] w-full overflow-hidden bg-background">
                 
-                {/* Image layer */}
-                <img 
+                <Image 
                   src={s.image} 
-                  className="h-full w-full object-cover transition-transform duration-3000 ease-out hover:scale-105" 
-                  alt={s.title} 
+                  alt={s.title}
+                  fill
+                  priority={index === 0}
+                  className="object-cover transition-transform duration-3000 ease-out hover:scale-105" 
+                  sizes="100vw"
                 />
 
                 <div className="absolute inset-0 bg-foreground/50 z-10" />
 
-                {/* Content layer */}
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6">
                   <div className="flex flex-col items-center justify-center space-y-8 max-w-3xl">
                     <div className="space-y-3">

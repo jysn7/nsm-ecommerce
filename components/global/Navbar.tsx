@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { LayoutDashboard, Package, Store } from 'lucide-react'
+import { LayoutDashboard, Package, ShoppingBasket, Store } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { UserMenu } from "./UserMenu"
 import { MobileSidebar } from "./MobileSidebar"
@@ -17,19 +17,10 @@ export function Navbar({ email, role }: { email?: string; role?: string }) {
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
         <Link href="/" className="group flex items-center gap-3">
-          {/* Aura Logo Mark */}
-          <div className="relative h-8 w-8 flex items-center justify-center">
-            {/* Background shape */}
-            <div className="absolute inset-0 rounded-full border border-foreground/20 transition-transform duration-500 group-hover:scale-110" />
-            {/* Inset shape */}
-            <div className="h-4 w-4 rounded-full bg-foreground transition-all duration-500 group-hover:h-3 group-hover:w-3" />
-            {/* Lens effect div */}
-            <div className="absolute top-0 left-0 h-full w-full rounded-full border-t-2 border-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </div>
-
+  
           {/* Brand Name */}
-          <span className="text-lg font-bold  tracking-tighter uppercase">
-            Aura
+          <span className="text-lg font-semibold tracking-tighter uppercase">
+            Kith
           </span>
         </Link>
       </div>
@@ -39,8 +30,14 @@ export function Navbar({ email, role }: { email?: string; role?: string }) {
           
           <Button variant="ghost" asChild className="h-10 rounded-xl text-muted-foreground hover:text-foreground px-3">
             <Link href="/products" className="flex items-center gap-2">
-              <Store className="h-[1.1rem] w-[1.1rem] stroke-[1.5]" />
+              <ShoppingBasket className="h-[1.1rem] w-[1.1rem] stroke-[1.5]" />
               <span className="text-xs tracking-widest hidden sm:inline">Shop All</span>
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild className="h-10 rounded-xl text-muted-foreground hover:text-foreground px-3">
+            <Link href="/stores" className="flex items-center gap-2">
+              <Store className="h-[1.1rem] w-[1.1rem] stroke-[1.5]" />
+              <span className="text-xs tracking-widest hidden sm:inline">Stores</span>
             </Link>
           </Button>
 
@@ -74,10 +71,9 @@ export function Navbar({ email, role }: { email?: string; role?: string }) {
             {email ? (
               <UserMenu email={email} />
             ) : (
-              <Button 
-                variant="outline" 
+              <Button  
                 asChild 
-                className="h-10 rounded-xl border-border px-6 text-xs uppercase tracking-widest font-normal transition-all hover:bg-foreground hover:text-background"
+                className="h-10 rounded-xl border-border px-6 text-xs uppercase tracking-widest font-normal transition-all hover:bg-foreground/90 hover:text-background"
               >
                 <Link href="/login">Login</Link>
               </Button>
