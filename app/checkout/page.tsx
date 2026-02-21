@@ -43,7 +43,7 @@ export default function CheckoutPage() {
 
       if (result.success) {
         toast.success("Payment successful")
-        router.push('/app/buyer') 
+        router.push('/') 
       } else {
         throw new Error(result.error)
       }

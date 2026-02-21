@@ -33,7 +33,8 @@ export async function updateSession(request: NextRequest) {
 
   const isProtectedPath = url.pathname.startsWith('/dashboard') || 
                           url.pathname.startsWith('/admin') || 
-                          url.pathname.startsWith('/orders')
+                          url.pathname.startsWith('/orders') ||
+                          url.pathname.startsWith('/checkout')
 
   if (!user && isProtectedPath) {
     url.pathname = '/login'
